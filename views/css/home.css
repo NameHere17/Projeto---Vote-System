@@ -1,0 +1,182 @@
+body, html{
+    margin:0;
+    height:100%;
+    width:100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bg-image{
+    filter: blur(1px);
+    position:fixed;
+    background-image: url("https://i.ibb.co/sgqNPf9/Untitled.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:100%;
+    width:100%;
+}
+
+.bg-text{
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 40%;
+    padding: 20px;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    width: 100%;
+    position:absolute;
+    grid: 100px / 1fr 1fr;
+    top: 60%;
+    color:white;
+    justify-items: center;
+    align-items: center;
+}
+
+.item {
+  text-align: center;
+  border:1px solid white;
+  justify-items: center;
+  align-items: center;
+  padding:25px;
+  border-radius:15px;
+}
+
+.item:hover{
+    background: linear-gradient(90deg, rgb(0, 86, 184) 0%, rgba(0,155,255,1) 64%, rgba(0,212,255,1) 100%);
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+a:link{
+    text-decoration: none;
+    color: white;
+}
+a:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.grid-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    position:absolute;
+    top: 50%;
+    color:white;
+    justify-items: center;
+    align-items: center;
+}
+
+.btn {
+    text-align: center;
+    border:1px solid white;
+    justify-items: center;
+    align-items: center;
+    padding:15px;
+    border-radius:15px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.btn:hover{
+    background: linear-gradient(90deg, rgb(0, 86, 184) 0%, rgba(0,155,255,1) 64%, rgba(0,212,255,1) 100%);
+}
+
+.grid-numeric {
+    display: grid;
+    grid-auto-flow: column;
+    width: 100%;
+    position:absolute;
+    top: 30%;
+    color:white;
+    justify-items: center;
+    align-items: center;
+}
+.button-center {
+    display: grid;
+    grid-auto-flow: column;
+    width: 100%;
+    position:absolute;
+    top: 85%;
+    color:white;
+    justify-items: center;
+    align-items: center;
+}
+.button-copy {
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: transparent;
+}
+.button {
+    width: 25%;
+    background-color:transparent;
+    border:1px solid white;
+    color:white;
+    padding:15px;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+button:active, button:focus{
+    outline: none;
+}
+button:hover, .button:hover{
+      
+    background: linear-gradient(90deg, rgba(2,124,0,1) 0%, rgba(0,198,59,1) 88%, rgb(0, 185, 71) 100%);
+}
+
+.maps {
+    display: grid;
+    width: 25%;
+    position:absolute;
+    top: 20%;
+    left: 35%;
+}
+.map {
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.btn-choose {
+    float: right;
+}
+#number {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+#number:focus {
+    border: 1px solid white;
+    outline: none;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

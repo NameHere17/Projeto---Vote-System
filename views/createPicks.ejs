@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA==" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/home.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/d3js/6.1.1/d3.min.js"></script>
+    </head>
+    <body>
+        <div class="bg-text">
+            <h3>Create Vote Phase</h3>
+        </div>
+        <div class="bg-image"></div>
+        <section class="grid-buttons">
+            <% 
+            for(i=0; i<numberData; i++){%>
+                <div class="btn" onclick="changeState(this)">nao</div>
+            <%}%>
+       </section>
+       <section class="button-center">
+            <button class="button" onclick="startBan()">Start</button>
+       </section>
+    </body>
+    <script>
+        function changeState(btn){
+            if(btn.innerHTML == "nao")
+                btn.innerHTML = "sim";
+            else
+                btn.innerHTML = "nao";
+        }
+        
+        function startBan(){
+            var pathArray = window.location.pathname.split('/')
+            var type = pathArray[pathArray.length - 1]
+            var btnArray = $(".btn").toArray();
+            if(contemPick(btnArray) == false)
+                alert("Pick at least one")  
+            else{
+                location.href = "/pick/" + type + "/" + getPick(btnArray)
+            }
+        }
+
+        function contemPick(btns){
+            for(i = 0; i < btns.length; i++)
+                if(btns[i].innerHTML == "sim")
+                    return true;
+            return false;
+        }
+
+        function getPick(btns){
+            var picks = [];
+            for(i = 0; i < btns.length; i++)
+                if(btns[i].innerHTML == "sim")
+                    picks.push(i)
+            return picks;
+        }
+    </script>
+</html>
