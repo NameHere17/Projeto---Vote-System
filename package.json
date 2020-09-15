@@ -1,7 +1,6 @@
 {
   "name": "projetofixe",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -15,5 +14,6 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": ""
 }

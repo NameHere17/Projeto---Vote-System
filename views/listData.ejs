@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha512-v8ng/uGxkge3d1IJuEo6dJP8JViyvms0cly9pnbfRxT6/31c3dRWxIiwGnMSWwZjHKOuY3EVmijs7k1jz/9bLA==" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/home.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/d3js/6.1.1/d3.min.js"></script>
+    </head>
+    <body>
+        <div class="bg-image"></div>
+        
+        <section class="maps">
+            <button class="button-copy" onclick="copyURL()">Copy URL</button>
+            <% for(i = 0; i < data.length; i++) { %>
+                <div class="map valid">
+                    <%= data[i] %>
+                </div>
+            <%}%>
+        </section>   
+    </body>
+    <script>
+        
+        //utiliza-se o socket para enviar um pacote "connect" e utiliza-se a variavel socket para enviar e receber informações do servidor
+        const socket = io();
+        
+        //é transformado o objecto {id...} numa string "{id...}"
+        var idServidor = <%- JSON.stringify(server) %>;
+
+        //log - [kick ou pick, mapa] -> tranformado numa string
+        var log = <%- JSON.stringify(log) %>;
+        
+        socket.emit("ready", idServidor)
+
+        for(i = 0 ; i < log.length; i++){
+            colorData(log[i].type, log[i].data)
+        }
+        
+        //Kick ou Pick
+        socket.on("voting", function(type){
+            var color = "red";
+
+            if(type == "sim")
+                color = "green";
+            
+            //Jquery
+            $('<button class="btn-choose">' + type + '</button>').appendTo('.valid');
+
+            $('.btn-choose').click(function() {
+                var data = $(this).parent().ignore('.btn-choose').text().trim();
+                socket.emit("vote", type, data, idServidor);
+                $(this).parent().removeClass("valid").css("color", color);
+            })
+        })
+
+        //Kick ou Pick, map
+        socket.on('vote', function(type, data) {
+            colorData(type, data)
+        })
+
+        socket.on("stop", function(){
+            $('.btn-choose').remove();
+        })
+
+        function colorData(type, data) {
+            var datas = document.getElementsByClassName('map');
+            for(i2 = 0; i2 < datas.length; i2++) {
+                if(datas[i2].innerText.trim() == data) {
+                    if(type == "nao")
+                        datas[i2].style.color = "red";
+                    else
+                        datas[i2].style.color = "green";
+                    datas[i2].classList.remove("valid")
+                }
+            }
+        }
+         socket.on('exit', function() {
+            alert("One of the users left! You'll be redirected to the main menu");
+            location.href = "/";
+        })
+
+       /* socket.on('stop', function(){
+            alert("One User left! Waiting to continue...")
+        })*/
+         
+        //funçao para retornar apenas o nome do mapa ou do valor introduzido fazendo um clone e removendo o que nao precisa
+        $.fn.ignore = function(sel){
+            return this.clone().find(sel||">*").remove().end();
+        };
+
+        function copyURL(){
+            var url = document.createElement('input'),
+            text = window.location.href;
+            document.body.appendChild(url);
+            url.value = text;
+            url.select();
+            document.execCommand('copy');
+            document.body.removeChild(url);
+        }
+    </script>
+</html>

@@ -30,8 +30,7 @@ app.get("/pick/:type", (req, res) => {
     else
        if(req.params.type == "custom")
         res.render("createPicks", {numberData: customData.length}) 
- 
-})
+ })
 
  app.get("/pick/:type/:picks", (req, res) => {
     //criar um id aleatorio do lobby
@@ -59,7 +58,7 @@ app.get("/lobby/:id", (req, res) => {
     if(server == null)
         res.redirect('/')
     else {
-        res.render("csgoDefault", { server: req.params.id, data:  server.data, log: server.log})//log - [kick ou pick, mapa]
+        res.render("listData", { server: req.params.id, data:  server.data, log: server.log})//log - [kick ou pick, mapa]
     }
 })
 
@@ -95,7 +94,7 @@ io.on("connect", (socket) => {
         }
     })
 
-    socket.on('vote', function(type, map, id) {
+    socket.on('vote', function(type, data, id) {
         var server = findServer(id)
 
         if(server != null) {
@@ -103,24 +102,24 @@ io.on("connect", (socket) => {
             if(server.player1 == socket) {
                 server.player1.emit("stop");
                 if(server.player2 != undefined) {
-                    server.player2.emit('vote', type, map)
+                    server.player2.emit('vote', type, data)
                 }
             }
             else {
                 server.player2.emit("stop");
                 if(server.player1 != undefined) {
-                    server.player1.emit('vote', type, map)
+                    server.player1.emit('vote', type, data)
                 }
             }
-            server.log.push({type: type, map: map});
-            sendSpectator(server.spectators, 'vote', type, map);
+            server.log.push({type: type, data: data});
+            sendSpectator(server.spectators, 'vote', type, data);
 
             if(pickFunction(server) == false) // Ver se é Pick ou Kick devolve falso se for KICK
                 playerPicking(server).emit('voting', 'nao') // PlayerPicking vê o player que irá jogar, em seguida é emitida a informação para esse jogador
             else 
                 playerPicking(server).emit('voting', 'sim')
 
-            console.log("Houve um(a) " + type + " no dado: " + map + " no servidor: " + id);
+            console.log("Houve um " + type + " no dado: " + data + " no servidor: " + id);
 
             if(server.plays == server.data.length)
                 console.log(server.log);
@@ -143,11 +142,8 @@ io.on("connect", (socket) => {
                 if(server.player1 != undefined)
                     server.player1.emit('exit') //exit -> sai 1 user saem todos || stop -> espera por um novo user
             }
-
-            if(server.player1 == undefined && server.player2 == undefined) {
-                sendSpectator(server.spectators, 'exit');
-                servers.splice(findServerIndex(server.id),1);
-            }
+            sendSpectator(server.spectators, 'exit');
+            servers.splice(findServerIndex(server.id),1);
         }
     })
 })
@@ -190,9 +186,9 @@ function findUser(socket) {
     return null;
 }
 
-function sendSpectator(arraySockets,sendString, type, map) {
+function sendSpectator(arraySockets,sendString, type, data) {
     for(i = 0; i < arraySockets.length; i++) {
-        arraySockets[i].emit(sendString, type, map);
+        arraySockets[i].emit(sendString, type, data);
     }
 }
 
