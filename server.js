@@ -64,7 +64,7 @@ app.get("/lobby/:id", (req, res) => {
 })
 
 //localhost:8080
-const serverListen = app.listen(8080)
+const serverListen = app.listen(80)
 
 // io -> socket "chamar" a library socket.io
 const io = require('socket.io').listen(serverListen);
