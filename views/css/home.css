@@ -8,7 +8,7 @@ body, html{
 .bg-image{
     filter: blur(1px);
     position:fixed;
-    background-image: url("https://i.ibb.co/sgqNPf9/Untitled.png");
+    background-image: url("https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?ixlib=rb-1.2.1&w=1000&q=80");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
